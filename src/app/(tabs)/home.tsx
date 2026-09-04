@@ -43,13 +43,28 @@ export default function Home() {
   const [highestExpense, setHighestExpense] = useState<any>(null);
   const [budgetData, setBudgetData] = useState(0);
   const [totalTransaction, setTotalTransaction] = useState(0);
-  const [profilePicture, setProfilePicture] = useState("LOL");
-
+  const [profilePicture, setProfilePicture] = useState(null);
   // -------------
   // Fetching Data 
   // -------------
 
   async function fetchData(){
+     const {data, error} = await supabase
+      .from("users")
+      .select("img_url")
+      .eq("user_id", profile?.user_id)
+      .limit(1)
+      .single()
+
+      if (error) {
+        console.log(error)
+        Alert.alert("Error", error.message)
+        return;
+      }
+
+      setProfilePicture(data.img_url)
+
+
       const {data: expenses, error: error_expenses} = await supabase
       .from("expenses")
       .select("*")
@@ -107,21 +122,6 @@ export default function Home() {
         setBudgetData(budget_d[0].budget);
       }
 
-      const {data, error} = await supabase
-      .from("users")
-      .select("img_url")
-      .eq("user_id", profile?.user_id)
-      .limit(1)
-      .single()
-
-      if (error) {
-        console.log(error)
-        Alert.alert("Error", error.message)
-        return;
-      }
-
-      setProfilePicture(`${profile.img_url}?t=${new Date().getTime()}`)
-
   }
 
   useFocusEffect(
@@ -158,7 +158,7 @@ export default function Home() {
         <View>
           <Text style={styles.welcome}>Welcome, {profile?.username || "dummy"}!</Text>
           <Text style={styles.subtitle}>
-            Manage your finances today
+            Manage your finances today {null == profilePicture ? "True" : "False"}
           </Text>
         </View>
 

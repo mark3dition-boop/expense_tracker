@@ -58,8 +58,9 @@ export default function Profile() {
       const arrayBuffer = await response.arrayBuffer();
 
       const fileExt = imageUri.split(".").pop() || "jpg";
-      // Gunakan user.id sebagai nama file agar file lama otomatis tertimpa
-      const fileName = `${profile?.user_id || Date.now()}.${fileExt}`;
+
+      // Gunakan user.id + timestamp sebagai nama file
+      const fileName = `${profile?.user_id}_${Date.now()}.${fileExt}`;
       const filePath = `avatars/${fileName}`;
 
       // A. Upload file ke Supabase Storage
@@ -87,8 +88,21 @@ export default function Profile() {
 
       if (updateError) throw updateError;
 
+      // Optional: Delete old profile picture if any
+      if (profileImage) {
+        // Ambil nama file dari URL lama
+        const oldFileName = profileImage.split('/').pop(); 
+        if (oldFileName) {
+          const { error: error_del } = await supabase.storage
+            .from("Profile_Image")
+            .remove([`avatars/${oldFileName}`]);
+
+            if (error_del) throw error_del;
+        }
+      }
+
       // D. Set local state dengan URL baru
-      setProfileImage(`${publicUrl}?t=${Date.now()}`);
+      setProfileImage(publicUrl);
       Alert.alert("Success", "Profile picture has been updated");
     } finally {
       setUploading(false);
@@ -132,7 +146,7 @@ export default function Profile() {
         return;
       }
 
-      setProfileImage(`${profile.img_url}?t=${new Date().getTime()}`);
+      setProfileImage(img[0].img_url);
   }
 
   useFocusEffect(
