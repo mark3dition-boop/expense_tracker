@@ -78,7 +78,9 @@ export default function login() {
         <View style={styles.fieldContainer}>
           <View style={styles.passwordLabelRow}>
             <Text style={styles.label}>Password</Text>
-            <TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => router.push('/(auth)/forgot_pw')}
+            >
               <Text style={styles.forgotLink}>Forgot Password?</Text>
             </TouchableOpacity>
           </View>
