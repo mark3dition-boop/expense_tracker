@@ -49,22 +49,7 @@ export default function Home() {
   // -------------
 
   async function fetchData(){
-     const {data, error} = await supabase
-      .from("users")
-      .select("img_url")
-      .eq("user_id", profile?.user_id)
-      .limit(1)
-      .single()
-
-      if (error) {
-        console.log(error)
-        Alert.alert("Error", error.message)
-        return;
-      }
-
-      setProfilePicture(data.img_url)
-
-
+    if (profile){
       const {data: expenses, error: error_expenses} = await supabase
       .from("expenses")
       .select("*")
@@ -122,6 +107,21 @@ export default function Home() {
         setBudgetData(budget_d[0].budget);
       }
 
+      const {data, error} = await supabase
+      .from("users")
+      .select("img_url")
+      .eq("user_id", profile?.user_id)
+      .limit(1)
+      .single()
+
+      if (error) {
+        console.log(error)
+        Alert.alert("Error", error.message)
+        return;
+      }
+
+      setProfilePicture(data.img_url)
+    }
   }
 
   useFocusEffect(
@@ -158,7 +158,7 @@ export default function Home() {
         <View>
           <Text style={styles.welcome}>Welcome, {profile?.username || "dummy"}!</Text>
           <Text style={styles.subtitle}>
-            Manage your finances today {null == profilePicture ? "True" : "False"}
+            Manage your finances today
           </Text>
         </View>
 

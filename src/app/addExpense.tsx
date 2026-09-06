@@ -107,7 +107,7 @@ export default function AddExpense() {
 
         {/* Note */}
         <View style={styles.section}>
-          <Text style={styles.label}>Note</Text>
+          <Text style={styles.label}>Title</Text>
 
           <TextInput
             style={styles.noteInput}

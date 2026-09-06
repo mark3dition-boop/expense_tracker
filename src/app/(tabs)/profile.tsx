@@ -48,39 +48,38 @@ export default function Profile() {
   };
   
 
-  // 2. Fungsi Upload ke Supabase Storage & Update Row Database
   const uploadAndSaveAvatar = async (imageUri: string) => {
     try {
       setUploading(true);
 
-      // Konversi URI menjadi ArrayBuffer
+      // Convert URI to ArrayBuffer
       const response = await fetch(imageUri);
       const arrayBuffer = await response.arrayBuffer();
 
       const fileExt = imageUri.split(".").pop() || "jpg";
 
-      // Gunakan user.id + timestamp sebagai nama file
+      // Using user.id + timestamp as filename
       const fileName = `${profile?.user_id}_${Date.now()}.${fileExt}`;
       const filePath = `avatars/${fileName}`;
 
-      // A. Upload file ke Supabase Storage
+      // Upload file to Supabase Storage
       const { error: uploadError } = await supabase.storage
-        .from("Profile_Image") // Pastikan bucket nama ini sudah diset Public di Supabase
+        .from("Profile_Image")
         .upload(filePath, arrayBuffer, {
           contentType: `image/${fileExt}`,
-          upsert: true, // Menimpa file lama jika nama filenya sama
+          upsert: true,
         });
 
       if (uploadError) throw uploadError;
 
-      // B. Ambil Public URL dari file yang baru diunggah
+      // Take Public URL from file that uploaded recently
       const { data } = supabase.storage
         .from("Profile_Image")
         .getPublicUrl(filePath);
 
       const publicUrl = data.publicUrl;
 
-      // C. Update URL avatar di Database Supabase (tabel profiles)
+      // Update URL avatar in Database Supabase (tabel profiles)
       const { error: updateError } = await supabase
         .from("users")
         .update({ img_url: publicUrl })
@@ -88,9 +87,9 @@ export default function Profile() {
 
       if (updateError) throw updateError;
 
-      // Optional: Delete old profile picture if any
+      // Delete old profile picture if any
       if (profileImage) {
-        // Ambil nama file dari URL lama
+        // Pick filename from old url
         const oldFileName = profileImage.split('/').pop(); 
         if (oldFileName) {
           const { error: error_del } = await supabase.storage
@@ -101,7 +100,7 @@ export default function Profile() {
         }
       }
 
-      // D. Set local state dengan URL baru
+      // D. Set local state with new URL
       setProfileImage(publicUrl);
       Alert.alert("Success", "Profile picture has been updated");
     } finally {

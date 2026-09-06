@@ -9,9 +9,6 @@ import {
   View,
 } from 'react-native';
 
-// Icon components using Unicode/Emoji as placeholder
-// In a real app, replace with react-native-vector-icons or similar
-
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { supabase } from '../../lib/supabase';
@@ -49,7 +46,7 @@ export default function login() {
       <View style={styles.header}>
        
 
-        <Text style={styles.brandName}>Fundtrack</Text>
+        <Text style={styles.brandName}>Extrax</Text>
         <Text style={styles.tagline}>
           Manage your finances more easily.{'\n'}Track expenses, set monthly budgets, and understand your financial situation.
         </Text>
@@ -122,7 +119,7 @@ export default function login() {
       {/* Footer */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>
-          © 2026 Fundtrack
+          © 2026 Extrax
         </Text>
       </View>
     </ScrollView>

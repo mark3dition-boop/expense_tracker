@@ -44,36 +44,31 @@ export default function RegisterScreen() {
     const { data, error } = await supabase.auth.signUp({
       email: formattedEmail,
       password,
+      options: {
+        data: {
+          name: fullName.trim(),
+        },
+        emailRedirectTo: "financialtracker://callback",
+      },
     });
 
     if (error) {
       Alert.alert("Error", error.message);
       return;
     }
-    
-    // 2. AMBIL USER ID
-    const user = data.user!;
 
-    // 3. INSERT KE TABLE USERS
-    const { error: dbError } = await supabase
-      .from("users")
-      .insert({
-        username: fullName,
-        email: formattedEmail,
-      });
+      Alert.alert(
+        "Registration Successful",
+        "Please check your email and click the confirmation link to verify your account."
+      );
 
-    if (dbError) {
-      Alert.alert("Error", dbError.message);
-      return;
-    }
-
-      Alert.alert("Success", "Account created");
+      router.back()
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.brandName}>Fundtrack</Text>
+        <Text style={styles.brandName}>Extrax</Text>
       </View>
       <Text style={styles.title}>Register</Text>
 
