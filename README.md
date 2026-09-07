@@ -1,56 +1,256 @@
-# Welcome to your Expo app 👋
+# Extrax
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Extrax** is a personal finance tracking mobile application designed to help users monitor their expenses, manage monthly budgets, and understand their financial habits.
 
-## Get started
+Built with **React Native + Expo** and powered by **Supabase**, Extrax provides a simple and minimal interface for managing personal finances.
 
-1. Install dependencies
+## ✨ Features
 
-   ```bash
-   npm install
-   ```
+* 📊 **Monthly Financial Overview**
 
-2. Start the app
+  * View your financial activity for the current month.
+  * See total expenses and transaction statistics.
 
-   ```bash
-   npx expo start
-   ```
+* 💰 **Budget Management**
 
-In the output, you'll find options to open the app in a
+  * Set a monthly spending limit.
+  * Monitor your spending progress.
+  * Visual indicators show your budget status:
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+    * 🔵 Safe spending
+    * 🟡 Approaching the limit
+    * 🔴 Nearing or exceeding the limit
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+* ➕ **Add Expenses**
 
-## Get a fresh project
+  * Quickly record new expenses.
+  * Store transaction details for future reference.
 
-When you're ready, run:
+* 📋 **Transaction Tracking**
+
+  * Keep track of your financial transactions.
+  * Organize transactions by date and other relevant information.
+
+* 🔐 **Authentication**
+
+  * User authentication and account management powered by Supabase.
+
+* ☁️ **Cloud Database**
+
+  * Financial data is securely stored using Supabase.
+
+## 🛠️ Tech Stack
+
+| Technology   | Purpose                             |
+| ------------ | ----------------------------------- |
+| React Native | Mobile application framework        |
+| Expo         | Development and application tooling |
+| TypeScript   | Type-safe development               |
+| Expo Router  | Application navigation              |
+| Supabase     | Authentication & database           |
+| PostgreSQL   | Data storage                        |
+| AsyncStorage | Local session persistence           |
+
+## 📱 Screens
+
+> Screenshots will be added here.
+
+<!--
+Add screenshots of the application here.
+
+Example:
+
+![Home Screen](assets/screenshots/home.png)
+![Budget Screen](assets/screenshots/budget.png)
+![Transaction Screen](assets/screenshots/transaction.png)
+-->
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+* Node.js
+* npm
+* Expo CLI / EAS CLI
+* Android Studio (for Android development)
+* Xcode (for iOS development on macOS)
+
+### 1. Clone the repository
 
 ```bash
-npm run reset-project
+git clone https://github.com/your-username/extrax.git
+cd extrax
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 2. Install dependencies
 
-### Other setup steps
+```bash
+npm install
+```
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+### 3. Configure environment variables
 
-## Learn more
+Create a `.env` file in the root directory:
 
-To learn more about developing your project with Expo, look at the following resources:
+```env
+EXPO_PUBLIC_SUPABASE_URL=your_supabase_url
+EXPO_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Replace the values with your Supabase project credentials.
 
-## Join the community
+> **Important:** Do not commit your `.env` file to GitHub.
 
-Join our community of developers creating universal apps.
+Make sure `.env` is included in `.gitignore`.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### 4. Start the development server
+
+```bash
+npx expo start
+```
+
+You can then run the application using:
+
+```bash
+npx expo start --android
+```
+
+or
+
+```bash
+npx expo start --ios
+```
+
+## 🗄️ Database
+
+Extrax uses **Supabase PostgreSQL** as its backend database.
+
+The database is responsible for storing information such as:
+
+* User accounts
+* Transactions
+* Expenses
+* Monthly budgets
+* Transaction dates
+
+The application communicates with Supabase through the Supabase JavaScript client.
+
+## 📂 Project Structure
+
+```text
+Extrax/
+├── app/
+│   ├── (tabs)/
+│   │   ├── index.tsx
+│   │   └── ...
+│   ├── ...
+│   └── _layout.tsx
+│
+├── components/
+│   ├── BudgetProgressCard.tsx
+│   ├── ...
+│
+├── lib/
+│   ├── supabase.ts
+│   └── ...
+│
+├── assets/
+│   ├── images/
+│   └── ...
+│
+├── .env
+├── app.json
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+## 🔒 Security
+
+Extrax uses Supabase authentication and database security features to protect user data.
+
+Environment variables containing Supabase credentials should never be committed to the repository.
+
+For production deployments, appropriate **Row Level Security (RLS)** policies should be enabled in Supabase to ensure users can only access their own financial data.
+
+## 🏗️ Build
+
+To create a production build using EAS:
+
+```bash
+npx eas build
+```
+
+For an Android build:
+
+```bash
+npx eas build --platform android
+```
+
+For an iOS build:
+
+```bash
+npx eas build --platform ios
+```
+
+## 🧪 Development
+
+Run the application in development mode:
+
+```bash
+npx expo start
+```
+
+For Android:
+
+```bash
+npx expo start --android
+```
+
+For development builds:
+
+```bash
+npx expo run:android
+```
+
+```bash
+npx expo run:ios
+```
+
+## 🤝 Contributing
+
+Contributions, issues, and suggestions are welcome.
+
+If you would like to contribute:
+
+1. Fork the repository.
+2. Create a new branch.
+
+```bash
+git checkout -b feature/your-feature
+```
+
+3. Make your changes.
+4. Commit your changes.
+
+```bash
+git commit -m "Add your feature"
+```
+
+5. Push the branch.
+
+```bash
+git push origin feature/your-feature
+```
+
+6. Open a Pull Request.
+
+## 📄 License
+
+This project is currently for educational and personal development purposes.
+
+---
+
+**Extrax** — *Track your money. Understand your spending.*
